@@ -1,0 +1,17 @@
+# Environment variables
+.env
+
+# Model files
+models/*.pt
+models/*.onnx
+
+# Output files
+output/*
+!output/.gitkeep
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
