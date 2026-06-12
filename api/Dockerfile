@@ -1,20 +1,41 @@
+# Stage 1: Builder
+FROM python:3.9-slim AS builder
+
+WORKDIR /app
+
+# Install uv
+RUN pip install --no-cache-dir uv
+
+# Create a virtual environment
+RUN uv venv /opt/venv
+
+# Make sure we use the virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY requirements.txt .
+# Install dependencies into the virtual environment
+RUN uv pip install --no-cache -r requirements.txt
+
+# Stage 2: Final
 FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install system dependencies required for OpenCV
-RUN apt-get update && apt-get install -y \
+# Install only runtime system dependencies for OpenCV
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     libglib2.0-0 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the virtual environment from the builder stage
+COPY --from=builder /opt/venv /opt/venv
+
+# Activate the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
 
 COPY . .
 
-# Environment variables
 ENV API_PORT=8000
 EXPOSE $API_PORT
 
