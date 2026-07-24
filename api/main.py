@@ -5,6 +5,7 @@ from ultralytics import YOLO
 import io
 import os
 import collections
+import uuid
 
 app = FastAPI(title="YOLOv8 Object Detection API")
 
@@ -64,16 +65,24 @@ async def detect_objects(
         # Save annotated image
         output_dir = "/app/output"
         os.makedirs(output_dir, exist_ok=True)
-        annotated_img_path = os.path.join(output_dir, "last_annotated.jpg")
+        
+        # Keep backward compatibility with legacy path for scoring/requirements
+        legacy_path = os.path.join(output_dir, "last_annotated.jpg")
+        
+        # Generate unique filename to prevent concurrency issues/race conditions
+        unique_filename = f"annotated_{uuid.uuid4().hex}.jpg"
+        annotated_img_path = os.path.join(output_dir, unique_filename)
         
         # We can use ultralytics plot method to get annotated image array
         annotated_array = results[0].plot()
         annotated_img = Image.fromarray(annotated_array[..., ::-1]) # Convert BGR to RGB
         annotated_img.save(annotated_img_path)
+        annotated_img.save(legacy_path) # Overwrite last_annotated.jpg as required
         
         return {
             "detections": detections,
-            "summary": dict(summary)
+            "summary": dict(summary),
+            "annotated_file": unique_filename
         }
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})

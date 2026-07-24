@@ -39,4 +39,4 @@ COPY . .
 ENV API_PORT=8000
 EXPOSE $API_PORT
 
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${API_PORT}"]
+CMD ["sh", "-c", "sh scripts/download_model.sh && uvicorn main:app --host 0.0.0.0 --port ${API_PORT}"]

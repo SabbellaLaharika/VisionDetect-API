@@ -46,12 +46,10 @@ with col1:
 with col2:
     st.subheader("Output")
     if 'detection_success' in st.session_state and st.session_state['detection_success']:
-        # The API saves the annotated image to /app/output/last_annotated.jpg
-        # Since docker-compose shares the volume, we can read it directly from the shared volume path
-        # But a more robust way is to either return the image from API or just read from the volume
-        # We will read from the volume mapping: /app/output (in UI container) -> /app/output (in API container)
-        
-        output_image_path = "/app/output/last_annotated.jpg"
+        # Retrieve the API response to get the unique filename or use fallback
+        result_json = st.session_state['detection_result']
+        unique_filename = result_json.get("annotated_file", "last_annotated.jpg")
+        output_image_path = os.path.join("/app/output", unique_filename)
         
         if os.path.exists(output_image_path):
             annotated_image = Image.open(output_image_path)
@@ -59,7 +57,6 @@ with col2:
             st.success("Detection complete!")
             
             # Display JSON summary
-            result_json = st.session_state['detection_result']
             st.subheader("Detection Summary")
             
             st.write("Counts by Class:")
@@ -68,4 +65,4 @@ with col2:
             with st.expander("Detailed Bounding Boxes"):
                 st.json(result_json.get("detections", []))
         else:
-            st.warning("Annotated image not found in the output directory. Check volume mappings.")
+            st.warning(f"Annotated image '{unique_filename}' not found in the output directory. Check volume mappings.")
