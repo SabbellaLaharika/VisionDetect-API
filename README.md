@@ -29,16 +29,16 @@ The application is structured into two isolated microservices that communicate o
 
 ```mermaid
 graph TD
-    User([User / Browser]) -->|Upload Image & Set Threshold| Streamlit[Streamlit UI Container]
-    Streamlit -->|HTTP POST /detect| FastAPI[FastAPI Backend Container]
-    FastAPI -->|Load Model| YOLO[YOLOv8 Engine]
+    User(["User / Browser"]) -->|Upload Image & Set Threshold| Streamlit["Streamlit UI Container"]
+    Streamlit -->|"HTTP POST /detect"| FastAPI["FastAPI Backend Container"]
+    FastAPI -->|Load Model| YOLO["YOLOv8 Engine"]
     YOLO -->|Infer Detections| FastAPI
-    FastAPI -->|1. Generate UUID & Plot Bounding Boxes| Plot[Plotting Engine]
-    Plot -->|2. Save annotated_<uuid>.jpg| OutputDir[(Shared Output Volume)]
-    Plot -->|3. Save last_annotated.jpg| OutputDir
-    FastAPI -->|4. Return JSON response with uuid path| Streamlit
-    Streamlit -->|5. Retrieve unique image from Volume| OutputDir
-    Streamlit -->|6. Render JSON & Image| User
+    FastAPI -->|"1. Generate UUID & Plot Bounding Boxes"| Plot["Plotting Engine"]
+    Plot -->|"2. Save annotated_uuid.jpg"| OutputDir[("Shared Output Volume")]
+    Plot -->|"3. Save last_annotated.jpg"| OutputDir
+    FastAPI -->|"4. Return JSON response with uuid path"| Streamlit
+    Streamlit -->|"5. Retrieve unique image from Volume"| OutputDir
+    Streamlit -->|"6. Render JSON & Image"| User
 ```
 
 ### Flow Breakdown:
@@ -59,12 +59,12 @@ When mounting a host directory to `/app/models`, any model downloaded during the
 ```mermaid
 graph TD
     subgraph "Build Phase (Docker Image)"
-        Build[RUN download_model.sh] -->|Saves model to| ImgModels[/app/models/yolov8n.pt]
+        Build["RUN download_model.sh"] -->|Saves model to| ImgModels["/app/models/yolov8n.pt"]
     end
     subgraph "Run Phase (Container Startup)"
-        HostDir[Host ./models/ folder] -->|Volume Mount OVERWRITES| ContainerModels[/app/models/]
+        HostDir["Host ./models/ folder"] -->|Volume Mount OVERWRITES| ContainerModels["/app/models/"]
         ContainerModels -.->|Shadows & Hides| ImgModels
-        AppStart[FastAPI Startup] -->|Fails to find model| Crash[Application Crash]
+        AppStart["FastAPI Startup"] -->|Fails to find model| Crash["Application Crash"]
     end
 ```
 
