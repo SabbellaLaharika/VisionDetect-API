@@ -13,13 +13,13 @@ A premium, containerized computer vision solution providing high-performance, re
 
 Here are examples of the system's real-time object detection outputs showing bounding boxes, class labels, and confidence percentages.
 
-### Case 1: Office Desk Detection
-*Detecting workspace essentials (laptop, cup, mouse, bowl) with high precision:*
-![Office Desk Detection](images/office_desk_detection.jpg)
+### Case 1: Living Room Detection
+*Detecting domestic objects (couch, tv, chair, potted plant) with high precision:*
+![Living Room Detection](images/living_room_detection.jpg)
 
-### Case 2: Busy City Intersection
-*Simulating real-time traffic and pedestrian monitoring:*
-![City Intersection Detection](images/city_intersection_detection.jpg)
+### Case 2: Overhead Parking Lot Car Counting
+*Demonstrating dense object detection for vehicle count monitoring:*
+![Parking Lot Detection](images/parking_lot_detection.jpg)
 
 ---
 
@@ -58,10 +58,10 @@ When mounting a host directory to `/app/models`, any model downloaded during the
 
 ```mermaid
 graph TD
-    subgraph Build Phase (Docker Image)
+    subgraph "Build Phase (Docker Image)"
         Build[RUN download_model.sh] -->|Saves model to| ImgModels[/app/models/yolov8n.pt]
     end
-    subgraph Run Phase (Container Startup)
+    subgraph "Run Phase (Container Startup)"
         HostDir[Host ./models/ folder] -->|Volume Mount OVERWRITES| ContainerModels[/app/models/]
         ContainerModels -.->|Shadows & Hides| ImgModels
         AppStart[FastAPI Startup] -->|Fails to find model| Crash[Application Crash]
