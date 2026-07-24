@@ -7,6 +7,15 @@
 
 A premium, containerized computer vision solution providing high-performance, real-time object detection. The architecture features a **FastAPI** REST backend serving a pre-trained **YOLOv8** model, backed by an interactive **Streamlit** frontend for user interaction, orchestrated via **Docker Compose**.
 
+## ✨ Features
+
+*   **Real-Time Inference:** Powered by YOLOv8 for fast and accurate object detection across 80 common object classes.
+*   **RESTful API:** A robust FastAPI service with dedicated health check (`/health`) and object detection (`/detect`) endpoints.
+*   **Interactive UI:** A Streamlit web app to easily upload images, adjust confidence thresholds, and view annotated results alongside detailed JSON summaries.
+*   **Fully Containerized:** Uses Docker and Docker Compose for seamless, portable, and scalable deployment.
+*   **Concurrency Isolation:** Dynamic UUID tokenization for generated image outputs, ensuring safe and conflict-free concurrent access.
+*   **Automated Weight Management:** Smart startup script execution preventing Docker volume shadowing and ensuring weights are present at runtime.
+
 ---
 
 ## 🚀 Live Output Demonstration
