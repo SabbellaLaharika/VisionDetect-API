@@ -125,8 +125,6 @@ sequenceDiagram
 
 ```
 ├── api/
-│   ├── scripts/
-│   │   └── download_model.sh  # Script to download model on startup
 │   ├── Dockerfile             # Multi-stage production build for API
 │   ├── main.py                # FastAPI main routes and inference code
 │   └── requirements.txt       # API package requirements
@@ -134,6 +132,8 @@ sequenceDiagram
 │   ├── Dockerfile             # Streamlit production Dockerfile
 │   ├── app.py                 # Streamlit UI app layout and request logic
 │   └── requirements.txt       # UI package requirements
+├── scripts/
+│   └── download_model.sh      # Script to download YOLOv8 model on startup
 ├── images/                    # Static image assets for documentation
 ├── models/                    # Persistent volume storage for YOLOv8 model weights (.pt)
 ├── output/                    # Persistent volume storage for annotated images

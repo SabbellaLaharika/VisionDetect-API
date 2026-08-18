@@ -12,7 +12,7 @@ RUN uv venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-COPY requirements.txt .
+COPY api/requirements.txt .
 # Install dependencies into the virtual environment
 RUN uv pip install --no-cache -r requirements.txt
 
@@ -34,7 +34,8 @@ COPY --from=builder /opt/venv /opt/venv
 # Activate the virtual environment
 ENV PATH="/opt/venv/bin:$PATH"
 
-COPY . .
+COPY api/ .
+COPY scripts/ scripts/
 
 ENV API_PORT=8000
 EXPOSE $API_PORT
