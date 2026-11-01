@@ -7,6 +7,10 @@
 
 A premium, containerized computer vision solution providing high-performance, real-time object detection. The architecture features a **FastAPI** REST backend serving a pre-trained **YOLOv8** model, backed by an interactive **Streamlit** frontend for user interaction, orchestrated via **Docker Compose**.
 
+## 🎥 Project Demo
+
+[![Watch the VisionDetect demo on YouTube](https://img.youtube.com/vi/Bsj4coUiayk/hqdefault.jpg)](https://youtu.be/Bsj4coUiayk)
+
 ## ✨ Features
 
 *   **Real-Time Inference:** Powered by YOLOv8 for fast and accurate object detection across 80 common object classes.
