@@ -9,7 +9,7 @@ A premium, containerized computer vision solution providing high-performance, re
 
 ## 🎥 Project Demo
 
-[![Watch the VisionDetect demo on YouTube](https://img.youtube.com/vi/Bsj4coUiayk/hqdefault.jpg)](https://youtu.be/Bsj4coUiayk)
+[![Watch the VisionDetect demo on YouTube](https://img.youtube.com/vi/Bsj4coUiayk/maxresdefault.jpg)](https://youtu.be/Bsj4coUiayk)
 
 ## ✨ Features
 
